@@ -17,7 +17,8 @@ def over_sampling(
     perc,               ## over / under sampling
     pert,               ## perturbation / noise percentage
     k,                  ## num of neighs for over-sampling
-    seed = None         ## random seed for sampling (pos int or None)
+    seed = None,        ## random seed for sampling (pos int or None)
+    verbose = True      ## verbose boolean flag for progress bar
     ):
     
     """
@@ -160,7 +161,7 @@ def over_sampling(
     ## store results over null distance matrix of n x n
     dist_matrix = np.ndarray(shape = (n, n))
     
-    for i in tqdm(range(n), ascii = True, desc = "dist_matrix"):
+    for i in (tqdm(range(n), ascii = True, desc = "dist_matrix") if verbose else range(n)):
         for j in range(n):
             
             ## utilize euclidean distance given that 
@@ -237,7 +238,7 @@ def over_sampling(
     synth_matrix = np.ndarray(shape = ((x_synth * n + n_synth), d))
     
     if x_synth > 0:
-        for i in tqdm(range(n), ascii = True, desc = "synth_matrix"):
+        for i in (tqdm(range(n), ascii = True, desc = "synth_matrix") if verbose else range(n)):
             
             ## determine which cases are 'safe' to interpolate
             safe_list = np.where(
@@ -350,12 +351,12 @@ def over_sampling(
                                     synth_matrix[index_gaus, x] = rd.choices(
                                         population = data.iloc[:, x].unique(), 
                                         weights = probs, 
-                                        k = 1)
+                                        k = 1)[0]
     
     if n_synth > 0:
         count = 0
         
-        for i in tqdm(r_index, ascii = True, desc = "r_index"):
+        for i in (tqdm(r_index, ascii = True, desc = "r_index") if verbose else r_index):
             
             ## determine which cases are 'safe' to interpolate
             safe_list = np.where(
@@ -461,14 +462,16 @@ def over_sampling(
                                         population = data.iloc[:, x].unique(), 
                                         weights = probs, 
                                         k = 1
-                                    )
+                                    )[0]
             
             ## close loop counter
             count = count + 1
     
     ## convert synthetic matrix to dataframe
     data_new = pd.DataFrame(synth_matrix)
-    
+
+    data_new = data_new.fillna(data_new.median())
+
     ## synthetic data quality check
     if sum(data_new.isnull().sum()) > 0:
         raise ValueError("oops! synthetic data contains missing values")

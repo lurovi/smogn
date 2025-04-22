@@ -85,3 +85,9 @@ SMOGN-0.1.1: 2020-03-23
 SMOGN-0.1.2: 2020-04-03
 ==========================
 - Fix input error handling
+
+SMOGN-0.2.0: 2025-04-22
+==========================
+- Added verbose to eventually suppress progress bar output
+- Fix missing seed parameter in over_sampling for reproducibility
+- Fix null values in synthetic data (fixed bug with handling and assigning output from choices from random module + eventually inserting median in generated data to replace null values)

@@ -27,7 +27,8 @@ def smoter(
     rel_method = "auto",      ## relevance method ("auto" or "manual")
     rel_xtrm_type = "both",   ## distribution focus ("high", "low", "both")
     rel_coef = 1.5,           ## coefficient for box plot (pos real)
-    rel_ctrl_pts_rg = None    ## input for "manual" rel method  (2d array)
+    rel_ctrl_pts_rg = None,   ## input for "manual" rel method  (2d array)
+    verbose = True            ## verbose boolean flag for progress bar
     
     ):
     
@@ -243,7 +244,9 @@ def smoter(
                 index = list(b_index[i].index),
                 perc = s_perc[i],
                 pert = pert,
-                k = k
+                k = k,
+                seed = seed,
+                verbose = verbose
             )
             
             ## concatenate over-sampling
@@ -285,6 +288,7 @@ def smoter(
         data_new = data_new[data_new.columns[cols]]
     
     ## restore original data types
+    data_new = data_new.fillna(data_new.median())
     for j in range(d):
         data_new.iloc[:, j] = data_new.iloc[:, j].astype(feat_dtypes_orig[j])
     
