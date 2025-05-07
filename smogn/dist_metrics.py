@@ -46,7 +46,7 @@ def heom_dist(a_num, b_num, d_num, ranges_num, a_nom, b_nom, d_nom):
     # import numpy as np
     
     ## create list to store distances
-    dist = [None] * d_num
+    dist = [None] * (d_num + d_nom)
     
     ## specify epsilon
     eps = 1e-30
@@ -65,11 +65,11 @@ def heom_dist(a_num, b_num, d_num, ranges_num, a_nom, b_nom, d_nom):
     
     ## loop through columns to calculate hamming
     ## distance for nominal / categorical features
-    for i in range(d_nom):
+    for i in range(d_num, d_num + d_nom):
         
         ## distance equals 0 for values that are equal
         ## in two vectors a and b of equal length
-        if a_nom.iloc[i] == b_nom.iloc[i]:
+        if a_nom.iloc[i - d_num] == b_nom.iloc[i - d_num]:
             dist[i] = 0
         
         ## distance equals 1 for values that are not equal
@@ -81,7 +81,7 @@ def heom_dist(a_num, b_num, d_num, ranges_num, a_nom, b_nom, d_nom):
         ## as squaring [0,1] returns same result
     
     ## sum all the squared differences and take the square root
-    dist = np.sqrt(sum(dist))
+    dist = float(np.sqrt(sum([dddd for dddd in dist if dddd is not None])))
     
     ## return distance list
     return dist

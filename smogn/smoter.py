@@ -6,6 +6,8 @@ import pandas as pd
 from smogn.phi import phi
 from smogn.phi_ctrl_pts import phi_ctrl_pts
 from smogn.over_sampling import over_sampling
+from smogn.util import clean_dataframe
+
 
 ## synthetic minority over-sampling technique for regression with gaussian noise 
 def smoter(
@@ -288,7 +290,7 @@ def smoter(
         data_new = data_new[data_new.columns[cols]]
     
     ## restore original data types
-    data_new = data_new.fillna(data_new.median())
+    data_new = clean_dataframe(data_new)
     for j in range(d):
         data_new.iloc[:, j] = data_new.iloc[:, j].astype(feat_dtypes_orig[j])
     

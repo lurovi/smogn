@@ -3,7 +3,7 @@ from setuptools import setup
 setup(
     
     name = 'smogn',
-    version = '0.2.0',
+    version = '0.3.0',
     description = 'A Python implementation of Synthetic Minority Over-Sampling Technique for Regression with Gaussian Noise (SMOGN)',
     long_description = open('README.md').read(),
     long_description_content_type = "text/markdown",

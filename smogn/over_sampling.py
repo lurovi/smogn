@@ -7,6 +7,8 @@ from tqdm import tqdm
 ## load dependencies - internal
 from smogn.box_plot_stats import box_plot_stats
 from smogn.dist_metrics import euclidean_dist, heom_dist, overlap_dist
+from smogn.util import clean_dataframe
+
 
 ## generate synthetic observations
 def over_sampling(
@@ -121,7 +123,7 @@ def over_sampling(
     ## label encode nominal / categorical features
     ## (strictly label encode, not one hot encode) 
     feat_list_nom = []
-    nom_dtypes = ["object", "bool", "datetime64"]
+    nom_dtypes = ["object", "bool", "datetime64", "category"]
     
     for j in range(d):
         if data.dtypes[j] in nom_dtypes:
@@ -470,7 +472,7 @@ def over_sampling(
     ## convert synthetic matrix to dataframe
     data_new = pd.DataFrame(synth_matrix)
 
-    data_new = data_new.fillna(data_new.median())
+    data_new = clean_dataframe(data_new)
 
     ## synthetic data quality check
     if sum(data_new.isnull().sum()) > 0:

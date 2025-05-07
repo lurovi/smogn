@@ -1,4 +1,6 @@
 # Project-specific
+.idea/
+.vscode/
 build/
 dist/
 smogn.Rproj

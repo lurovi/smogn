@@ -91,3 +91,8 @@ SMOGN-0.2.0: 2025-04-22
 - Added verbose to eventually suppress progress bar output
 - Fix missing seed parameter in over_sampling for reproducibility
 - Fix null values in synthetic data (fixed bug with handling and assigning output from choices from random module + eventually inserting median in generated data to replace null values)
+
+SMOGN-0.3.0: 2025-05-07
+==========================
+- Fixing filling of NaN values in case of categorical values with util functions
+- Fixing heom_dist indexes
